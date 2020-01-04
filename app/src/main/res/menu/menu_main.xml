@@ -3,6 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="cloud.antares.scoutcoder.MainActivity">
     <item
+        android:id="@+id/action_share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="@string/action_share_label"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_encode"
+        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:title="@string/action_encode_label"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_reset"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/action_reset_label"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_settings"
         android:enabled="false"
         android:orderInCategory="100"

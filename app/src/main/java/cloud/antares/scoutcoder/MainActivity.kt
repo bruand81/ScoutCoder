@@ -1,15 +1,21 @@
 package cloud.antares.scoutcoder
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.text.Normalizer
@@ -17,7 +23,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, View.OnTouchListener {
     private var selectedCodecs: Int = 0
     private var key1: String = "A"
     private var key2: String = "1"
@@ -35,9 +41,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()*/
+            share()
         }
+        fab.isEnabled = false
+        fab.imageAlpha = 130
 
         internationalAlphabet = resources.getStringArray(R.array.international_alphabet_array).asList()
         italianAlphabet = resources.getStringArray(R.array.italian_alphabet_array).asList()
@@ -72,29 +81,53 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         populateKeySpinner(idx)
 
         resetButton.setOnClickListener {
-            numericRadioButton.isChecked = true
-            key1Spinner.setSelection(0)
-            key2Spinner.setSelection(0)
-            originText.setText("")
-            encodedText.setText("")
+            reset()
         }
 
         encodeButton.setOnClickListener {
-            var plainText = originText.text.toString()
-            var encText = when(selectedCodecs){
-                0 -> numericCipher(key1,key2.toInt(), invertText, plainText)
-                1 -> alphabeticCipher(key1, key2,invertText, plainText)
-                2 -> morseEncoding(plainText, invertText)
-                else -> ""
-            }
-            encodedText.setText(encText)
+            encode()
         }
+
+        encodedText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                fab.isEnabled = s.isNotEmpty()
+                fab.imageAlpha = if (s.isNotEmpty()) 255 else 130
+                invalidateOptionsMenu()
+            }
+        })
+
+        key1Spinner.setOnTouchListener(this)
+        key2Spinner.setOnTouchListener(this)
+        keyResumeTextView.setOnTouchListener(this)
+        encodedTextLabel.setOnTouchListener(this)
+        originTextLabel.setOnTouchListener(this)
+        encodedText.setOnTouchListener(this)
+        invertTextSwitch.setOnTouchListener(this)
+        key1TextView.setOnTouchListener(this)
+        key2TextView.setOnTouchListener(this)
+        conversionType.setOnTouchListener(this)
+        numericRadioButton.setOnTouchListener(this)
+        morseRadioButton.setOnTouchListener(this)
+        alphabeticRadioButton.setOnTouchListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+        /*val menu_share = menu.findItem(R.id.action_share)
+        menu_share.isEnabled = encodedText.text.toString().isNotEmpty()
+        menu_share.icon?.alpha = if (encodedText.text.toString().isNotEmpty()) 255 else 130*/
         return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val menu_share = menu?.findItem(R.id.action_share)
+        menu_share?.isEnabled = encodedText.text.toString().isNotEmpty()
+        menu_share?.icon?.alpha = if (encodedText.text.toString().isNotEmpty()) 255 else 130
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -103,6 +136,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_encode -> {
+                encode()
+                return true
+            }
+            R.id.action_reset -> {
+                reset()
+                return true
+            }
+            R.id.action_share -> {
+                share()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -303,7 +348,64 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         return reverse
     }
 
-    fun replaceAll(orig:String, regex: String, replacement: String): String {
+    private fun replaceAll(orig:String, regex: String, replacement: String): String {
         return Pattern.compile(regex).matcher(orig).replaceAll(replacement)
+    }
+
+    private fun encode() {
+        var plainText = originText.text.toString()
+        var encText = when(selectedCodecs){
+            0 -> numericCipher(key1,key2.toInt(), invertText, plainText)
+            1 -> alphabeticCipher(key1, key2,invertText, plainText)
+            2 -> morseEncoding(plainText, invertText)
+            else -> ""
+        }
+        encodedText.setText(encText)
+        hideKeyboard(this)
+    }
+
+    private fun share() {
+        hideKeyboard(this)
+        val encTextLabel = encodedTextLabel.text.toString()
+        val encText = encodedText.text.toString()
+        val origTextLabel = originTextLabel.text.toString()
+        val origText = originText.text.toString()
+        val keyText = when(selectedCodecs) {
+            0 -> "[Numerico] " + keyResumeTextView.text.toString()
+            1 -> "[Alfabetico] " + keyResumeTextView.text.toString()
+            2 -> "[Morse] (" + (if (invertText) "Invertito" else "Normale") + ")"
+            else -> ""
+        }
+        val shareBody = String.format("%s\n## %s\n%s\n## %s\n%s",keyText,origTextLabel,origText,encTextLabel,encText)
+        val sharingIntent:Intent = Intent(android.content.Intent.ACTION_SEND)
+        sharingIntent.setType("text/plain")
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.share_subject))
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_using)))
+    }
+
+    private fun reset() {
+        numericRadioButton.isChecked = true
+        key1Spinner.setSelection(0)
+        key2Spinner.setSelection(0)
+        originText.setText("")
+        encodedText.setText("")
+        hideKeyboard(this)
+    }
+
+    private fun hideKeyboard(activity: Activity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        //Find the currently focused view, so we can grab the correct window token from it.
+        var view = activity.currentFocus
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = View(activity)
+        }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        hideKeyboard(this)
+        return false
     }
 }

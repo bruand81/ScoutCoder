@@ -165,6 +165,7 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/originTextLabel"
+                android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textAutoComplete"
                 android:lines="5" />
@@ -194,6 +195,7 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/encodedTextLabel"
+                android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:lines="5"

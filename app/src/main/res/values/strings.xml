@@ -12,4 +12,9 @@
     <string name="encodeButtonText">Codifica</string>
     <string name="resetButtonText">Reset</string>
     <string name="invertTextSwitchLabel">Inverti Testo</string>
+    <string name="action_share_label">Condivdi</string>
+    <string name="action_encode_label">Codifica</string>
+    <string name="action_reset_label">Reset</string>
+    <string name="share_using">Condividi testo codificato</string>
+    <string name="share_subject">ScoutCoder testo cifrato</string>
 </resources>
