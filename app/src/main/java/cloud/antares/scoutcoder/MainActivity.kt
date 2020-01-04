@@ -16,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.text.Normalizer
@@ -40,7 +41,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Vi
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
+        MobileAds.initialize(this, "ca-app-pub-7085815040234496~3352511716")
+
+        fab.setOnClickListener {
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
             share()
