@@ -1,7 +1,6 @@
 package cloud.antares.scoutcoder
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -16,7 +15,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.text.Normalizer
@@ -35,13 +38,52 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Vi
     private lateinit var italianAlphabet: List<String>
     private lateinit var morseAlphabetAndNumber: List<String>
     private lateinit var morseIndex: List<String>
+    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
+
+    private val TAG = "MainActivity"
+
+    private lateinit var mAdView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        MobileAds.initialize(this, "ca-app-pub-7085815040234496~3352511716")
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
+        MobileAds.initialize(this, getString(R.string.admob_app_id))
+
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
+        mAdView.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                Log.d("ADMOB", "onAdLoaded")
+            }
+
+            override fun onAdFailedToLoad(errorCode : Int) {
+                Log.d("ADMOB", "onAdFailedToLoad(errorCode = $errorCode)")
+            }
+
+            override fun onAdOpened() {
+                Log.d("ADMOB", "onAdOpened")
+            }
+
+            override fun onAdClicked() {
+                Log.d("ADMOB", "onAdClicked")
+            }
+
+            override fun onAdLeftApplication() {
+                Log.d("ADMOB", "onAdLeftApplication")
+            }
+
+            override fun onAdClosed() {
+                Log.d("ADMOB", "onAdClosed")
+            }
+        }
+
+
 
         fab.setOnClickListener {
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -268,7 +310,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Vi
         inputText: String
     ): String {
         var input = if (invert) this.reverseString(inputText) else inputText
-        input = input.toUpperCase(Locale.getDefault())
+        input = normalizeString(input)
         val isEnglish =
             isEnglish(input) || isEnglish(key1) || key2 > italianAlphabet.size
         val alphabet: List<String> =
@@ -302,7 +344,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Vi
         inputText: String
     ): String {
         var input = if (invert) reverseString(inputText) else inputText
-        input = input.toUpperCase(Locale.getDefault())
+        input = normalizeString(input)
         val isEnglish =
             isEnglish(input) || isEnglish(key1) || isEnglish(key2)
         val charDistance = characterDistance(key1, key2, isEnglish)
@@ -323,9 +365,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Vi
 
     private fun morseEncoding(inputText: String, invert: Boolean): String {
         var input = if (invert) reverseString(inputText) else inputText
-        input = input.toUpperCase(Locale.getDefault())
-        input = Normalizer.normalize(input, Normalizer.Form.NFKD)
-        input = replaceAll(input, "\\p{M}", "'")
+        input = normalizeString(input)
         val b = StringBuilder()
         val punctuations = ".,:;?!"
         for (element in input) {
@@ -341,6 +381,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener, Vi
             }
         }
         return b.toString()
+    }
+
+    private fun normalizeString(inputStr: String): String {
+        var input = inputStr.toUpperCase(Locale.getDefault())
+        input = Normalizer.normalize(input, Normalizer.Form.NFKD)
+        input = replaceAll(input, "\\p{M}", "'")
+        return input
     }
 
     private fun reverseString(inputText: String): String {

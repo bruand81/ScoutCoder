@@ -8,17 +8,20 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-7085815040234496/4000853752"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/default_short_distance"
+        android:layout_marginLeft="@dimen/default_short_distance"
+        android:layout_marginTop="@dimen/default_short_distance"
+        android:layout_marginEnd="@dimen/default_short_distance"
+        android:layout_marginRight="@dimen/default_short_distance"
+        app:adSize="BANNER"
+        app:adUnitId="@string/banner_ad_unit_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,12 +29,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/default_short_distance"
+        android:layout_marginLeft="@dimen/default_short_distance"
+        android:layout_marginTop="@dimen/default_short_distance"
+        android:layout_marginEnd="@dimen/default_short_distance"
+        android:layout_marginRight="@dimen/default_short_distance"
+        android:layout_marginBottom="@dimen/default_short_distance"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,11 +49,11 @@
                 android:id="@+id/conversionType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="@dimen/default_short_distance"
+                android:layout_marginLeft="@dimen/default_short_distance"
+                android:layout_marginTop="@dimen/default_short_distance"
+                android:layout_marginEnd="@dimen/default_short_distance"
+                android:layout_marginRight="@dimen/default_short_distance"
                 android:checkedButton="@id/numericRadioButton"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
@@ -63,7 +66,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <Space
-                    android:layout_width="8dp"
+                    android:layout_width="@dimen/default_short_distance"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
@@ -75,7 +78,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <Space
-                    android:layout_width="8dp"
+                    android:layout_width="@dimen/default_short_distance"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
@@ -97,11 +100,11 @@
                     android:id="@+id/key1TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="@dimen/default_short_distance"
+                    android:layout_marginLeft="@dimen/default_short_distance"
+                    android:layout_marginTop="@dimen/default_long_distance"
+                    android:layout_marginEnd="@dimen/default_short_distance"
+                    android:layout_marginRight="@dimen/default_short_distance"
                     android:text="@string/key1TWLabel"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -109,19 +112,19 @@
                     android:id="@+id/key1Spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp" />
+                    android:layout_marginStart="@dimen/default_short_distance"
+                    android:layout_marginLeft="@dimen/default_short_distance"
+                    android:layout_marginTop="@dimen/default_long_distance"
+                    android:layout_marginEnd="@dimen/default_short_distance"
+                    android:layout_marginRight="@dimen/default_short_distance" />
 
                 <TextView
                     android:id="@+id/key2TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="@dimen/default_long_distance"
+                    android:layout_marginEnd="@dimen/default_short_distance"
+                    android:layout_marginRight="@dimen/default_short_distance"
                     android:text="@string/key2TWLabel"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -129,11 +132,11 @@
                     android:id="@+id/key2Spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp" />
+                    android:layout_marginStart="@dimen/default_short_distance"
+                    android:layout_marginLeft="@dimen/default_short_distance"
+                    android:layout_marginTop="@dimen/default_long_distance"
+                    android:layout_marginEnd="@dimen/default_short_distance"
+                    android:layout_marginRight="@dimen/default_short_distance" />
             </LinearLayout>
 
             <Switch
@@ -146,11 +149,11 @@
                 android:id="@+id/keyResumeTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="@dimen/default_short_distance"
+                android:layout_marginLeft="@dimen/default_short_distance"
+                android:layout_marginTop="@dimen/default_long_distance"
+                android:layout_marginEnd="@dimen/default_short_distance"
+                android:layout_marginRight="@dimen/default_short_distance"
                 android:gravity="center"
                 android:text="@string/keyResumeTextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -159,11 +162,11 @@
                 android:id="@+id/originTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="@dimen/default_short_distance"
+                android:layout_marginLeft="@dimen/default_short_distance"
+                android:layout_marginTop="@dimen/default_long_distance"
+                android:layout_marginEnd="@dimen/default_short_distance"
+                android:layout_marginRight="@dimen/default_short_distance"
                 android:text="@string/originTextLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
@@ -172,28 +175,28 @@
                 android:id="@+id/originText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="@dimen/default_short_distance"
+                android:layout_marginLeft="@dimen/default_short_distance"
+                android:layout_marginTop="@dimen/default_long_distance"
+                android:layout_marginEnd="@dimen/default_short_distance"
+                android:layout_marginRight="@dimen/default_short_distance"
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/originTextLabel"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textAutoComplete"
-                android:lines="5" />
+                android:lines="@integer/lines_no" />
 
             <TextView
                 android:id="@+id/encodedTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="@dimen/default_short_distance"
+                android:layout_marginLeft="@dimen/default_short_distance"
+                android:layout_marginTop="@dimen/default_long_distance"
+                android:layout_marginEnd="@dimen/default_short_distance"
+                android:layout_marginRight="@dimen/default_short_distance"
                 android:text="@string/encodedTextLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
@@ -202,18 +205,18 @@
                 android:id="@+id/encodedText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginStart="@dimen/default_short_distance"
+                android:layout_marginLeft="@dimen/default_short_distance"
+                android:layout_marginTop="@dimen/default_long_distance"
+                android:layout_marginEnd="@dimen/default_short_distance"
+                android:layout_marginRight="@dimen/default_short_distance"
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/encodedTextLabel"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
-                android:lines="5"
+                android:lines="@integer/lines_no"
                 android:longClickable="false" />
 
             <LinearLayout

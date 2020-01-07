@@ -17,4 +17,8 @@
     <string name="action_reset_label">Reset</string>
     <string name="share_using">Condividi testo codificato</string>
     <string name="share_subject">ScoutCoder testo cifrato</string>
+    <string name="admob_app_id">ca-app-pub-7085815040234496~3352511716</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7085815040234496/4000853752</string>
+    <!--<string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
 </resources>
